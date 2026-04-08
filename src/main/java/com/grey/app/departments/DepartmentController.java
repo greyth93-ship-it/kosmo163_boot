@@ -22,7 +22,7 @@ public class DepartmentController {
 	private DepartmentService departmentService;
 	
 	@GetMapping("list")
-	public String list(Model model) {
+	public String list(Model model) throws Exception {
 		List<DepartmentDTO> ar = departmentService.list();
 		
 		// request와 비슷한 역할, Spring이 제공
@@ -43,19 +43,19 @@ public class DepartmentController {
 //	}
 	
 	@GetMapping("detail")
-	public void detail(@RequestParam(name="num") String num, Model model) {
-		DepartmentDTO dto = departmentService.detail(num);
+	public void detail(DepartmentDTO departmentDTO, Model model) throws Exception {
+		departmentDTO = departmentService.detail(departmentDTO);
 		
-		model.addAttribute("d", dto);
+		model.addAttribute("d", departmentDTO);
 	}
 	
 	
 	
 	@GetMapping("create") // URL 정보와 JSP의 경로가 같다면 void로 리턴
-	public void create() {}
+	public void create() throws Exception {}
 	
 	@PostMapping("create")
-	public String create(DepartmentDTO dto) {
+	public String create(DepartmentDTO dto)throws Exception  {
 		
 		int result = departmentService.create(dto);
 		
@@ -67,7 +67,7 @@ public class DepartmentController {
 	
 	
 	@PostMapping("delete")
-	public String delete(DepartmentDTO dto) {
+	public String delete(DepartmentDTO dto) throws Exception {
 		int result = departmentService.delete(dto);
 		
 		return "redirect:./list";
@@ -77,13 +77,13 @@ public class DepartmentController {
 	
 	
 	@GetMapping("update")
-	public void update(DepartmentDTO dto, Model model) {
-		dto = departmentService.detail(dto.getDepartmentNo());
-		model.addAttribute("d",dto);
+	public void update(DepartmentDTO departmentDTO, Model model) throws Exception {
+		departmentDTO = departmentService.detail(departmentDTO);
+		model.addAttribute("d",departmentDTO);
 	}
 	
 	@PostMapping("update")
-	public String update(DepartmentDTO dto) {
+	public String update(DepartmentDTO dto) throws Exception {
 		
 		int result = departmentService.update(dto);
 		

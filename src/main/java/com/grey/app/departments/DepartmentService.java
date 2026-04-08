@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DepartmentService {
 
 	@Autowired
-	private DepartmentDAO departmentDAO;
+	private DepartmentMapper departmentDAO;
 	
-	public List<DepartmentDTO> list() {
+	public List<DepartmentDTO> list() throws Exception {
 		return departmentDAO.list();
 	}
 	
 	
 	
-	public DepartmentDTO detail(String num) {
-		return departmentDAO.detail(num);
+	public DepartmentDTO detail(DepartmentDTO departmentDTO) throws Exception {
+		return departmentDAO.detail(departmentDTO);
 		
 	}
 	
-	public int create(DepartmentDTO dto) {
+	public int create(DepartmentDTO dto) throws Exception {
 		return departmentDAO.create(dto);
 	}
 	
-	public int delete(DepartmentDTO dto) {
+	public int delete(DepartmentDTO dto) throws Exception {
 		return departmentDAO.delete(dto);
 	}
 	
-	public int update(DepartmentDTO dto) {
+	public int update(DepartmentDTO dto) throws Exception {
 		return departmentDAO.update(dto);
 	}
 	
