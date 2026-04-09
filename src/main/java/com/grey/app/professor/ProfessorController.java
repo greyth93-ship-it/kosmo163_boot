@@ -39,7 +39,7 @@ public class ProfessorController {
 	@PostMapping("create")
 	public String create(ProfessorDTO dto) throws Exception {
 		int result = professorService.create(dto);
-		return "/professor/create";
+		return "redirect:./list";
 		
 	}
 	@GetMapping("update")
@@ -51,13 +51,13 @@ public class ProfessorController {
 	@PostMapping("update")
 	public String update(ProfessorDTO dto) throws Exception {
 		int reuslt = professorService.update(dto);
-		return "/professor/update";
+		return "redirect:./list";
 	}
 	
 	
 	public String delete(ProfessorDTO dto) throws Exception {
 		int result = professorService.delete(dto);
-		return "/professor/delete";
+		return "redirect:./list";
 		
 	}
 
