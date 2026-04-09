@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.grey.app.board.notice.NoticeMapper">
+  
+  
+  	<select id="list" resultType="NoticeDTO">
+  		<![CDATA[
+  		SELECT * FROM TB_NOTICE
+		WHERE ARTICLE_NO > (SELECT MAX(ARTICLE_NO)-10 FROM TB_NOTICE) AND ARTICLE_NO <= (SELECT MAX(ARTICLE_NO) FROM TB_NOTICE)
+		ORDER BY ARTICLE_NO DESC
+		]]>
+  	</select>
+  	<select id="detail" parameterType="NoticeDTO" resultType="NoticeDTO">
+  		SELECT *
+  		FROM TB_NOTICE
+  		WHERE ARTICLE_NO = #{articleNo}
+  	</select>
+  	<insert id="create" parameterType="NoticeDTO">
+  		INSERT INTO TB_NOTICE
+		VALUES (
+			TB_NOTICE_SEQ.NEXTVAL,
+			#{articleTitle},
+			#{articleContent},
+			0,
+			sysdate,
+			#{articleWriter}
+		)
+  	</insert>
+  	<update id="update" parameterType="NoticeDTO">
+  		UPDATE TB_NOTICE
+  		SET ARTICLE_TITLE=#{articleTitle}, ARTICLE_CONTENT=#{articleContent}
+  		WHERE ARTICLE_NO=#{articleNo}
+  	</update>
+  	<delete id="delete" parameterType="NoticeDTO">
+  		DELETE TB_NOTICE
+  		WHERE ARTICLE_NO=#{articleNo}
+  	</delete>
+  
+  
+  
+  
+  </mapper>
