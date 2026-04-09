@@ -50,11 +50,11 @@ public class ProfessorController {
 	}
 	@PostMapping("update")
 	public String update(ProfessorDTO dto) throws Exception {
-		int reuslt = professorService.update(dto);
+		int result = professorService.update(dto);
 		return "redirect:./list";
 	}
 	
-	
+	@PostMapping("delete")
 	public String delete(ProfessorDTO dto) throws Exception {
 		int result = professorService.delete(dto);
 		return "redirect:./list";
