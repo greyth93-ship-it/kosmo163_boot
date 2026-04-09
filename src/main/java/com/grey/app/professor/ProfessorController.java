@@ -20,7 +20,7 @@ public class ProfessorController {
 	public String list(Model model) throws Exception {
 		 List<ProfessorDTO> ar = professorService.list();
 		
-		 model.addAttribute("d", ar);
+		 model.addAttribute("list", ar);
 		 
 		 return "professor/list";
 		 
