@@ -36,8 +36,8 @@
 						    <input type="text" name="articleContent"  class="form-control" id="articleContent">
 						  </div> 
 						  <div class="form-group">
-						    <label for="a">학과 정원 입력</label>
-						    <input type="number" name="capacity"  class="form-control" id="capacity">
+						    <label for="articleWriter">작성자 입력</label>
+						    <input type="text" name="articleWriter"  class="form-control" id="articleWriter">
 						  </div>
 							
 						  <button type="submit" class="btn btn-primary">Submit</button>
