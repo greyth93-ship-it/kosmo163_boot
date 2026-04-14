@@ -37,48 +37,70 @@ public class NoticeService {
 	}
 	
 	
-	public int create(NoticeDTO dto, MultipartFile attach) throws Exception {
+	public int create(NoticeDTO dto, MultipartFile [] attach) throws Exception {
+		
+		int result = noticeMapper.create(dto);
+		
+		
 		// 1. 어디에 저장?
 		log.info(filePath);
-		String filePath = this.filePath+this.notice;
-		
-		// 2. 어떤 이름으로 저장할 것인가?
-		String fileName = UUID.randomUUID().toString();
-		
-//		log.warn(fileName);
-//		
-//		// 2-2. 확장자
-//		log.error(attach.getOriginalFilename());
-//		String f = attach.getOriginalFilename();
-//		f = f.substring(f.lastIndexOf("."));
-//		log.info(f);
+		String filePath = this.filePath + this.notice;
 		
 		
-		fileName = fileName + "_" + attach.getOriginalFilename();
-		
-		
-		// 3. 저장
-		File file = new File(filePath);
-		
-		if (!file.exists()) {
-			file.mkdirs();
+		// attach가 null인 경우
+		if(attach == null) {
+			return result;
 		}
 		
-		file = new File(file, fileName);
 		
+		for(MultipartFile m: attach) {
+			
+			// 파일이 없는 경우
+			if (m.isEmpty()) {
+				continue;
+			}
+			
+			// 2. 어떤 이름으로 저장할 것인가?
+			String fileName = UUID.randomUUID().toString();
+			
+	//		log.warn(fileName);
+	//		
+	//		// 2-2. 확장자
+	//		log.error(attach.getOriginalFilename());
+	//		String f = attach.getOriginalFilename();
+	//		f = f.substring(f.lastIndexOf("."));
+	//		log.info(f);
+			
+			
+			fileName = fileName + "_" + m.getOriginalFilename();
+			
+			
+			// 3. 저장
+			File file = new File(filePath);
+			
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			
+			file = new File(file, fileName);
+			
+			
+			// 3-1. 파일 저장
+			m.transferTo(file);
+			
+			// 3-2. 파일 저장 Spring에서 제공 Class
+	//		FileCopyUtils.copy(attach.getBytes(), file);
+			
+			// 4. DB에 저장
+			NoticeFileDTO noticeFileDTO = new NoticeFileDTO();
+			noticeFileDTO.setFileName(fileName);
+			noticeFileDTO.setOriName(m.getOriginalFilename());
+			noticeFileDTO.setArticleNo(dto.getArticleNo());
+			
+			result = noticeMapper.createFile(noticeFileDTO);
+		}
 		
-		// 3-1. 파일 저장
-		attach.transferTo(file);
-		
-		// 3-2. 파일 저장 Spring에서 제공 Class
-//		FileCopyUtils.copy(attach.getBytes(), file);
-		
-		
-		
-		
-		
-		
-		return 0; //noticeMapper.create(dto);
+		return result; //noticeMapper.create(dto);
 	}
 	
 	

@@ -6,6 +6,7 @@
   <mapper namespace="com.grey.app.board.notice.NoticeMapper">
   <!-- File -->
   <insert id="createFile" parameterType="NoticeFileDTO">
+  	
   	INSERT INTO TB_NOTICEFILE
   	VALUES (
   		TB_NOTICE_SEQ.NEXTVAL,
@@ -50,16 +51,48 @@
 		
   	</select>
   	
-  	<select id="detail" parameterType="NoticeDTO" resultType="NoticeDTO">
+  	<select id="detail" parameterType="NoticeDTO" resultMap="detailResult">
   		SELECT *
-  		FROM TB_NOTICE
-  		WHERE ARTICLE_NO = #{articleNo}
+		FROM TB_NOTICE n
+			LEFT JOIN TB_NOTICEFILE tn 
+			USING (ARTICLE_NO)
+		WHERE ARTICLE_NO = #{articleNo}
   	</select>
+  	<resultMap type="NoticeDTO" id="detailResult">
+  		<!-- id ->  PK 입력 -->
+  		<id column="ARTICLE_NO" property="articleNo" />
+  		<!-- 그 외 나머지 -->
+  		<result column="ARTICLE_TITLE" property="articleTitle"/>
+  		<result column="ARTICLE_CONTENT" property="articleContent"/>
+  		<result column="ARTICLE_HIT" property="articleHit"/>
+  		<result column="ARTICLE_DATE" property="articleDate"/>
+  		<result column="ARTICLE_WRITER" property="articleWriter"/>
+  		
+  		<!-- 1:1
+  		<association property="" javaType="">
+  			<id/>
+  			<result/>
+  			
+  		</association>
+  		-->
+  		
+  		<!-- 1:N -->
+  		<collection property="list" javaType="java.util.List" ofType="NoticeFileDTO">
+  			<id column="FILE_NO" property="fileNo"/>
+  			<result column="FILE_NAME" property="fileName"/>
+  			<result column="ORI_NAME" property="oriName"/>
+  		</collection>
+  	</resultMap>
   	
   	<insert id="create" parameterType="NoticeDTO">
+  	
+	  	<selectKey order="BEFORE" resultType="Long" keyProperty="articleNo">
+	  		SELECT TB_NOTICE_SEQ.NEXTVAL FROM DUAL
+	  	</selectKey>
+	  	
   		INSERT INTO TB_NOTICE
 		VALUES (
-			TB_NOTICE_SEQ.NEXTVAL,
+			#{articleNo},
 			#{articleTitle},
 			#{articleContent},
 			0,

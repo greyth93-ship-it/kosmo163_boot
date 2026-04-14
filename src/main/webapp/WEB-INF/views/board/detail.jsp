@@ -44,14 +44,21 @@
 	                   				
 	                   			</tbody>
 	                   		</table>
+	                   		<div>
+	                   			<c:forEach items="${dto.list}" var="f">
+	                   				<h4><img src="/files/notice/${f.fileName}"></h4>
+	                   			</c:forEach>
+	                   			
+	                   		
+	                   		</div>
 	                   </div>
 	                   
 						<div>
-						<a class="btn btn-primary" href="./update?articleNo=${d.articleNo}">학과수정</a>
+						<a class="btn btn-primary" href="./update?articleNo=${dto.articleNo}">학과수정</a>
 						
 						
 						<form action="./delete" method="post">
-							<input type="hidden" name="darticleNoo" value="${d.articleNo}">
+							<input type="hidden" name="articleNo" value="${dto.articleNo}">
 							<button class="btn btn-danger" type="submit">DELETE</button>
 						</form>
 						</div>

@@ -1,6 +1,7 @@
 package com.grey.app.board.notice;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,8 @@ public class NoticeDTO {
 	private Long articleHit;
 	private LocalDateTime articleDate;
 	private String articleWriter;
+	
+	private List<NoticeFileDTO> list;
 	
 	
 }

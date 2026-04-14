@@ -43,7 +43,7 @@ public class NoticeController {
 	}
 	
 	@PostMapping("create")
-	public String create(NoticeDTO dto, @RequestParam("attach") MultipartFile attach) throws Exception {
+	public String create(NoticeDTO dto, @RequestParam("attach") MultipartFile [] attach) throws Exception {
 		
 		int result = noticeService.create(dto, attach);
 		
