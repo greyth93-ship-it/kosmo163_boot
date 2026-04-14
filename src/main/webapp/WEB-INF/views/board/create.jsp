@@ -6,7 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
+	<c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+    
 </head>
 
 <body id="page-top">
@@ -26,18 +28,27 @@
 	                   <h1 class="h3 mb-4 text-gray-800">작성 페이지</h1>
 	                   
 	                   <div>
-	                   <form method="post">
+	                   <form action="./create" method="post" enctype="multipart/form-data">
 						  <div class="form-group">
 						    <label for="articleTitle">글 제목 입력</label>
 						    <input type="text" name="articleTitle"  class="form-control" id="articleTitle">
 						  </div>
 						  <div class="form-group">
-						    <label for="articleContent">글 입력</label>
-						    <input type="text" name="articleContent"  class="form-control" id="articleContent">
-						  </div> 
-						  <div class="form-group">
 						    <label for="articleWriter">작성자 입력</label>
 						    <input type="text" name="articleWriter"  class="form-control" id="articleWriter">
+						  </div>
+						  <div class="form-group">
+						    <label for="articleContent">글 내용 입력</label>
+						    <textarea rows="12" cols="" name="articleContent"  class="form-control" id="articleContent"></textarea>
+						   
+						  </div> 
+						  	
+						  	
+						
+						  <div class="form-group">
+						  	<label>첨부파일</label>
+						  	<input type="file" name="attach" class="form-control">
+						  	
 						  </div>
 							
 						  <button type="submit" class="btn btn-primary">Submit</button>
@@ -54,5 +65,16 @@
 	</div>
 	<!-- End wrapper -->
 	<c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
+	
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+	<script>
+      $('#articleContent').summernote({
+        placeholder: 'Hello Bootstrap 4',
+        tabsize: 2,
+        height: 100
+      });
+    </script>
+	
+	
 </body>
 </html>

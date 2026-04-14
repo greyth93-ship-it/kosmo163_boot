@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.grey.app.page.Pager;
 import com.grey.app.professor.ProfessorDTO;
@@ -33,18 +34,31 @@ public class NoticeController {
 		 model.addAttribute("list", ar);
 		 model.addAttribute("pager",pager);
 		 
-		 return "notice/list";
+		 return "board/list";
 	}
 	
 	@GetMapping("create")
 	public String create() throws Exception {
-		return "notice/create";
+		return "board/create";
 	}
+	
 	@PostMapping("create")
-	public String create(NoticeDTO dto)throws Exception {
-		int result = noticeService.create(dto);
+	public String create(NoticeDTO dto, @RequestParam("attach") MultipartFile attach) throws Exception {
+		
+		int result = noticeService.create(dto, attach);
 		
 		return "redirect:./list";
+	}
+	
+	
+	@GetMapping("detail")
+	public String detail(NoticeDTO noticeDTO, Model model) throws Exception {
+		
+		noticeDTO = noticeService.detail(noticeDTO);
+		
+		model.addAttribute("dto", noticeDTO);
+		
+		return "board/detail";
 	}
 	
 	

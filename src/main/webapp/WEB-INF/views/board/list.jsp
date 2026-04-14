@@ -40,7 +40,7 @@
 										<option ${pager.kind =='v3'?'selected':''} value="v3">Writer</option>
 									</select>
 									</div>
-						  <input type="text" value="${pager.search}" name="search" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+						  <input type="text" value="${pager.search}" name="search" class="form-control" placeholder="검색어를 입력해 주세요" aria-label="Recipient's username" aria-describedby="button-addon2">
 						  <div class="input-group-append">
 						    <button class="btn btn-outline-secondary" id="button-addon2">검색</button>
 						  </div>
@@ -60,8 +60,8 @@
 	                   			<tbody>
 	                   				<c:forEach items="${list}" var="d">
 	                   				<tr>
-	                   					<td><a href="./notice?articleNo=${d.articleNo}">${d.articleNo}</a></td>
-	                   					<td>${d.articleTitle}</td>
+	                   					<td><a href="./detail?articleNo=${d.articleNo}">${d.articleNo}</a></td>
+	                   					<td><a href="./detail?articleNo=${d.articleNo}">${d.articleTitle}</a></td>
 	                   					<td>${d.articleDate}</td>
 	                   					<td>${d.articleWriter}</td>
 	                   					<td>${d.articleHit}</td>
