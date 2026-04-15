@@ -3,6 +3,8 @@ package com.grey.app.board.notice;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.grey.app.board.BoardDTO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,14 +12,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class NoticeDTO {
+public class NoticeDTO extends BoardDTO {
 
-	private Long articleNo;
-	private String articleTitle;
-	private String articleContent;
-	private Long articleHit;
-	private LocalDateTime articleDate;
-	private String articleWriter;
 	
 	private List<NoticeFileDTO> list;
 	

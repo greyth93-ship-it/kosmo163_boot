@@ -36,17 +36,17 @@
 	                   			</thead>
 	                   			<tbody>
 	                   				<tr>
-	                   					<td>${dto.articleTitle}</td>
-	                   					<td>${dto.articleWriter}</td>
-		                   				<td>${dto.articleContent}</td>
+	                   					<td>${qnadto.articleTitle}</td>
+	                   					<td>${qnadto.articleWriter}</td>
+		                   				<td>${qnadto.articleContent}</td>
 		                 
 	                   				</tr>
 	                   				
 	                   			</tbody>
 	                   		</table>
 	                   		<div>
-	                   			<c:forEach items="${dto.list}" var="f">
-	                   				<h4><img src="/files/notice/${f.fileName}"></h4>
+	                   			<c:forEach items="${qnadto.list}" var="f">
+	                   				<h4><img src="/files/qna/${f.fileName}"></h4>
 	                   			</c:forEach>
 	                   			
 	                   		
@@ -54,11 +54,13 @@
 	                   </div>
 	                   
 						<div>
-						<a class="btn btn-primary" href="./update?articleNo=${dto.articleNo}">학과수정</a>
+						<a class="btn btn-primary" href="./reply?articleNo=${qnadto.articleNo}">댓글</a>
+						
+						<a class="btn btn-primary" href="./update?articleNo=${qnadto.articleNo}">학과수정</a>
 						
 						
 						<form action="./delete" method="post">
-							<input type="hidden" name="articleNo" value="${dto.articleNo}">
+							<input type="hidden" name="articleNo" value="${qnadto.articleNo}">
 							<button class="btn btn-danger" type="submit">DELETE</button>
 						</form>
 						</div>

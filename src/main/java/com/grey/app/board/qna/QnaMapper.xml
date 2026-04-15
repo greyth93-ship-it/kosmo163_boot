@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grey.app.board.qna.QnaMapper">
+
+	<insert id="createFile" parameterType="QnaFileDTO">
+		INSERT INTO TB_QNAFILE
+  	VALUES (
+  		TB_QNA_SEQ.NEXTVAL,
+  		#{fileName},
+  		#{oriName},
+  		#{articleNo}
+  	)
+	
+	</insert>
+
+	<sql id="search">
+		WHERE
+		<choose>
+			<when test="kind == 'v2'">ARTICLE_CONTENT</when>
+			<when test="kind == 'v3'">ARTICLE_WRITER</when>
+			<otherwise>ARTICLE_TITLE</otherwise>
+		</choose>
+		LIKE '%'|| #{search} || '%'
+	</sql>
+	
+	<select id="getCount" resultType="Long" parameterType="Pager">
+		SELECT COUNT(ARTICLE_NO) FROM TB_QNA
+  		<include refid="search"></include>
+	</select>
+	
+	<select id="list" parameterType="Pager" resultType="QnaDTO">
+		
+		SELECT * FROM
+				(
+					SELECT ROWNUM R, T.* FROM
+					(
+						SELECT * FROM TB_QNA 
+						<include refid="search"></include>
+						ORDER BY ARTICLE_REF DESC, ARTICLE_STEP ASC 
+					) T
+				)
+			WHERE R BETWEEN #{first} AND #{last}
+	
+	
+	</select>
+	
+	<select id="detail" parameterType="QnaDTO" resultMap="detailResult">
+		SELECT *
+		FROM TB_QNA q
+			LEFT JOIN TB_QNAFILE qf
+			USING (ARTICLE_NO)
+		WHERE ARTICLE_NO = #{articleNo}
+	</select>
+	<resultMap type="QnaDTO" id="detailResult">
+	
+		<id column="ARTICLE_NO" property="articleNo"/>
+		<result column="ARTICLE_TITLE" property="articleTitle"/>
+  		<result column="ARTICLE_CONTENT" property="articleContent"/>
+  		<result column="ARTICLE_HIT" property="articleHit"/>
+  		<result column="ARTICLE_DATE" property="articleDate"/>
+  		<result column="ARTICLE_WRITER" property="articleWriter"/>
+  		<result column="ARTICLE_REF" property="articleRef"/>
+  		<result column="ARTICLE_STEP" property="articleStep"/>
+  		<result column="ARTICLE_DEPTH" property="articleDepth"/>
+  		
+  		<collection property="list" javaType="java.util.List" ofType="QnaFileDTO">
+  			<id column="FILE_NO" property="fileNo"/>
+  			<result column="FILE_NAME" property="fileName"/>
+  			<result column="ORI_NAME" property="oriName"/>
+  		</collection>
+	</resultMap>
+	
+	<insert id="create" parameterType="QnaDTO">
+		<selectKey order="BEFORE" resultType="Long" keyProperty="articleNo">
+	  		SELECT TB_QNA_SEQ.NEXTVAL FROM DUAL
+	  	</selectKey>
+	  	
+  		INSERT INTO TB_QNA
+		VALUES (
+			#{articleNo},
+			#{articleTitle},
+			#{articleContent},
+			0,
+			sysdate,
+			#{articleWriter},
+			<if test="articleRef != 0">
+				#{articleRef},
+			</if>
+			<if test="articleRef == null">
+				#{articleNo},
+			</if>
+			#{articleStep},
+			#{articleDepth}
+		)
+	</insert>
+	
+	<update id="replyUpdate" parameterType="QnaDTO">
+		UPDATE TB_QNA
+		SET ARTICLE_STEP = ARTICLE_STEP+1
+		WHERE ARTICLE_REF = #{articleRef} AND ARTICLE_STEP > #{articleStep}
+	
+	
+	</update>
+
+
+
+</mapper>
